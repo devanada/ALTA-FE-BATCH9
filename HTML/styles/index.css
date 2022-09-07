@@ -1,0 +1,76 @@
+body {
+  background-color: lightblue;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  margin: 0;
+}
+
+div {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+}
+
+#header-satu {
+  font-weight: bold;
+  color: darkblue;
+}
+
+.paragraf {
+  font-size: 2rem;
+  width: 50%;
+}
+
+.testing {
+  font-style: italic;
+}
+
+.container {
+  background-color: blueviolet;
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://media1.popsugar-assets.com/files/thumbor/_vcrWNC5VK8yi-7hVwqoCGcBKT4/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2022/06/21/967/n/44498184/tmp_0zuAq3_5e3ffb2782cc4f95_TCDSTTH_ZX064.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+h1,
+h2 {
+  color: darkgoldenrod;
+  font-family: "Press Start 2P", cursive;
+}
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  transition: all 0.5s ease;
+}
+
+a:hover {
+  color: red;
+}
+
+.table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table,
+th,
+td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  background-color: grey;
+}
