@@ -48,16 +48,16 @@ function whileLoop() {
 FOR IN digunakan untuk melakukan perulangan pada object, bisa juga digunakan pada array. FOR IN tidak perlu menentukan kondisi dan juga post agar looping bisa berhenti, FOR IN looping secara otomatis bakal berhenti ketika dia sampai di penghujung item dari sebuah object/array
 */
 function forIn() {
-  for (let i = 0; i < arrOfItem.length; i++) {
-    console.log(arrOfItem[i]);
-  }
+  // for (let i = 0; i < arrOfItem.length; i++) {
+  //   console.log(arrOfItem[i]);
+  // }
   for (const key in arrOfItem) {
     // console.log(key); // Output: index/urutan dari item
     console.log(arrOfItem[key]); // Output: value dari item itu sendiri
   }
 }
 
-// forIn();
+forIn();
 
 // ---------- FOR OF ---------- //
 /*
@@ -69,7 +69,7 @@ function forOf() {
   }
 }
 
-// forOf();
+forOf();
 
 // ---------- FOREACH ---------- //
 /*
@@ -95,4 +95,4 @@ function funcMap() {
   });
 }
 
-funcMap();
+// funcMap();
