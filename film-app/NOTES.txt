@@ -1,0 +1,6 @@
+rce = react class export component
+rcc = react class component
+rfc = react functional component
+rfce = react functional export component
+rafc = react arrow function component
+rafce = react arrow function export component
