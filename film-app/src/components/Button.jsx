@@ -3,9 +3,12 @@ import React, { Component } from "react";
 export class ButtonPrimary extends Component {
   render() {
     return (
-      <div className="p-3 border rounded-lg bg-white text-black text-center font-bold">
+      <button
+        className="p-3 border rounded-lg bg-white text-black text-center font-bold cursor-pointer"
+        onClick={this.props.onClick}
+      >
         {this.props.label}
-      </div>
+      </button>
     );
   }
 }
@@ -13,9 +16,12 @@ export class ButtonPrimary extends Component {
 export class ButtonSecondary extends Component {
   render() {
     return (
-      <div className="p-3 border rounded-lg bg-slate-500 text-black">
+      <button
+        className="p-3 border rounded-lg bg-slate-500 text-black cursor-pointer"
+        onClick={this.props.onClick}
+      >
         {this.props.label}
-      </div>
+      </button>
     );
   }
 }

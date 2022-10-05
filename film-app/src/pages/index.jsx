@@ -1,9 +1,10 @@
 import { Component } from "react";
-import { faker } from "@faker-js/faker";
+import axios from "axios";
 import "../styles/App.css";
 
 import Container from "../components/Layout";
 import Loading from "../components/Loading";
+import { ButtonPrimary } from "../components/Button";
 import Card from "../components/Card";
 
 const TESTSTRING = "TEST STRING";
@@ -14,6 +15,7 @@ class App extends Component {
     datas: [],
     skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     loading: true,
+    page: 1,
   };
   // ---=== CONSTRUCTOR END ===---
 
@@ -22,24 +24,24 @@ class App extends Component {
   }
 
   fetchData() {
-    this.setState({ loading: true });
-    let dataTemp = [];
-    for (let i = 0; i < 10; i++) {
-      const temp = {
-        id: i + 1,
-        title: faker.name.fullName(),
-        image:
-          "https://upload.wikimedia.org/wikipedia/en/c/c7/Batman_Infobox.jpg",
-      };
-      dataTemp.push(temp);
-    }
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        datas: dataTemp,
-        title: "WELCOME GUYS!",
+    axios
+      .get(
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=2a67d025ca0b7716570984170969e88f&page=${this.state.page}`
+      )
+      .then((res) => {
+        const { results } = res.data; // destructuring
+        // const results = res.data.results;
+        const newPage = this.state.page + 1;
+        const temp = [...this.state.datas];
+        temp.push(...results);
+        this.setState({ datas: temp, page: newPage });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
-    }, 3000);
   }
 
   render() {
@@ -47,11 +49,11 @@ class App extends Component {
       <>
         {/* Fragment */}
         <Container>
-          <div>
+          <div className="w-full flex flex-col">
             <p>
               {this.state.title} | CLASS COMPONENT | {TESTSTRING}
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-4">
               {this.state.loading
                 ? this.state.skeleton.map(
                     (item) => <Loading key={item} /> // Self Closing tag
@@ -59,12 +61,12 @@ class App extends Component {
                 : this.state.datas.map((data) => (
                     <Card
                       key={data.id}
-                      image={data.image}
+                      image={data.poster_path}
                       title={data.title}
-                      judul={data.title}
                     /> // <~ Self closing tag
                   ))}
             </div>
+            <ButtonPrimary label="Load More" onClick={() => this.fetchData()} />
           </div>
         </Container>
       </>
