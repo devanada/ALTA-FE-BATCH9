@@ -20,24 +20,47 @@ class App extends Component {
   // ---=== CONSTRUCTOR END ===---
 
   componentDidMount() {
-    this.fetchData();
+    // this.fetchData();
+    this.fetchPopular();
   }
 
   fetchData() {
+    // axios.get(URL, config)
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=2a67d025ca0b7716570984170969e88f&page=${this.state.page}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${this.state.page}`
       )
       .then((res) => {
         const { results } = res.data; // destructuring
         // const results = res.data.results;
         const newPage = this.state.page + 1;
-        const temp = [...this.state.datas];
-        temp.push(...results);
+        const temp = [...this.state.datas]; // spread operator
+        temp.push(...results); // spread operator
         this.setState({ datas: temp, page: newPage });
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.toString());
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+      });
+  }
+
+  fetchPopular() {
+    fetch(
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${this.state.page}`
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        const { results } = res; // destructuring
+        // const results = res.data.results;
+        const newPage = this.state.page + 1;
+        const temp = [...this.state.datas]; // spread operator
+        temp.push(...results); // spread operator
+        this.setState({ datas: temp, page: newPage });
+      })
+      .catch((err) => {
+        alert(err.toString());
       })
       .finally(() => {
         this.setState({ loading: false });
