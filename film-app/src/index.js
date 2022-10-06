@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/index.css";
-import Home from "./pages";
-import App from "./pages/App";
+import App from "./routes";
 
 /*
 index.js disini sebagai entry point, yang mana tugasnya adalah untuk menginjeksi sebuah komponent react kedalam index.html dengan element id "root"
@@ -10,6 +9,6 @@ index.js disini sebagai entry point, yang mana tugasnya adalah untuk menginjeksi
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Home />
+    <App />
   </React.StrictMode>
 );

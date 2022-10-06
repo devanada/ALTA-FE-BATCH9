@@ -2,9 +2,11 @@ import { Component } from "react";
 import axios from "axios";
 import "../styles/App.css";
 
+import { WithRouter } from "../utils/Navigation";
+
+import { ButtonPrimary } from "../components/Button";
 import Container from "../components/Layout";
 import Loading from "../components/Loading";
-import { ButtonPrimary } from "../components/Button";
 import Card from "../components/Card";
 
 const TESTSTRING = "TEST STRING";
@@ -20,8 +22,8 @@ class App extends Component {
   // ---=== CONSTRUCTOR END ===---
 
   componentDidMount() {
-    // this.fetchData();
-    this.fetchPopular();
+    this.fetchData();
+    // this.fetchPopular();
   }
 
   fetchData() {
@@ -86,6 +88,10 @@ class App extends Component {
                       key={data.id}
                       image={data.poster_path}
                       title={data.title}
+                      onNavigate={() =>
+                        this.props.navigate(`/detail/${data.id}`)
+                      }
+                      addFavorite={() => console.log("test")}
                     /> // <~ Self closing tag
                   ))}
             </div>
@@ -97,4 +103,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default WithRouter(App);
