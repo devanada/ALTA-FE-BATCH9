@@ -69,6 +69,26 @@ class App extends Component {
       });
   }
 
+  handleFav(movie) {
+    const getMovies = localStorage.getItem("favMovies");
+    if (getMovies) {
+      const parsedMovies = JSON.parse(getMovies);
+      /*
+      cek film yang diinputkan ada di local storage atau tidak (saran menggunakan method .find)
+      if movie.id === data.id
+
+      - kalau gak ada, push ke parsedMovies
+      - kalau ada, kasih alert (film sudah ditambahkan sebelumnya)
+      */
+      parsedMovies.push(movie);
+      const temp = JSON.stringify(parsedMovies);
+      localStorage.setItem("favMovies", temp);
+    } else {
+      const temp = JSON.stringify([movie]);
+      localStorage.setItem("favMovies", temp);
+    }
+  }
+
   render() {
     return (
       <>
@@ -91,7 +111,7 @@ class App extends Component {
                       onNavigate={() =>
                         this.props.navigate(`/detail/${data.id}`)
                       }
-                      addFavorite={() => console.log("test")}
+                      addFavorite={() => this.handleFav(data)}
                     /> // <~ Self closing tag
                   ))}
             </div>
