@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Container from "../components/Layout";
+import Container from "components/Layout";
 
 function Example() {
   const [email, setEmail] = useState("");

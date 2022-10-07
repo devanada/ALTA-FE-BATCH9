@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-import { WithRouter } from "../utils/Navigation";
+import { WithRouter } from "utils/Navigation";
+import { useTitle } from "utils/hooks/useTitle";
+import { useFetchGet } from "utils/hooks/useFetchGet";
 
-import Container from "../components/Layout";
+import Container from "components/Layout";
 
 const DetailMovie = (props) => {
-  const [data, setData] = useState({});
+  const { id_movie } = props.params;
+  const [data] = useFetchGet(
+    `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${process.env.REACT_APP_TMDB_KEY}&append_to_response=videos`
+  );
   const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  useTitle(data.title);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    const { id_movie } = props.params;
-    axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${process.env.REACT_APP_TMDB_KEY}&append_to_response=videos`
-      )
-      .then((res) => {
-        const { data } = res;
-        setData(data);
-        setVideos(data.videos.results);
-      })
-      .catch((err) => {
-        alert(err.toString());
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    data.videos !== undefined && setVideos(data.videos.results);
+  }, [data]);
 
   return (
     <Container>

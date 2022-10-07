@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/App.css";
+import "styles/App.css";
 
-import { WithRouter } from "../utils/Navigation";
+import { WithRouter } from "utils/Navigation";
 
-import { ButtonPrimary } from "../components/Button";
-import Container from "../components/Layout";
-import Loading from "../components/Loading";
-import Card from "../components/Card";
+import { ButtonPrimary } from "components/Button";
+import Container from "components/Layout";
+import Loading from "components/Loading";
+import Card from "components/Card";
 
 function App(props) {
   // ---=== CONSTRUCTOR START ===---
