@@ -1,32 +1,28 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import Container from "../components/Layout";
 
-class Example extends Component {
-  state = {
-    email: "",
-    password: "",
-  };
+function Example() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  render() {
-    return (
-      <Container>
-        <p>{this.state.email}</p>
-        <input
-          className="bg-neutral-200 p-3 rounded-2xl border border-neutral-300"
-          placeholder="Email"
-          type="email"
-          onChange={(e) => this.setState({ email: e.target.value })}
-        />
-        <input
-          className="bg-neutral-200 p-3 rounded-2xl border border-neutral-300"
-          placeholder="Password"
-          type="password"
-          onChange={(e) => this.setState({ password: e.target.value })}
-        />
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <p>{email}</p>
+      <input
+        className="bg-neutral-200 p-3 rounded-2xl border border-neutral-300"
+        placeholder="Email"
+        type="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="bg-neutral-200 p-3 rounded-2xl border border-neutral-300"
+        placeholder="Password"
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+    </Container>
+  );
 }
 
 export default Example;

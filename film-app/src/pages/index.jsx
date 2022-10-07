@@ -1,4 +1,5 @@
-import { Component } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/App.css";
 
@@ -9,67 +10,92 @@ import Container from "../components/Layout";
 import Loading from "../components/Loading";
 import Card from "../components/Card";
 
-const TESTSTRING = "TEST STRING";
-class App extends Component {
+function App(props) {
   // ---=== CONSTRUCTOR START ===---
-  state = {
-    title: "Welcome",
-    datas: [],
-    skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    loading: true,
-    page: 1,
-  };
+  // const [state, setState] = useState(initialState)
+  const [datas, setDatas] = useState([]);
+  const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
   // ---=== CONSTRUCTOR END ===---
 
-  componentDidMount() {
-    this.fetchData();
-    // this.fetchPopular();
-  }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  fetchData() {
+  /*
+  Ketika ada perubahan state pada saat useEffect berjalan, maka terjadi sebuah re-render component
+
+  mirip dengan componentDidMount, artinya dia hanya dipanggil sekali setelah component dimuat/render (menambahkan empty scope)
+  useEffect(() => {
+    // ...
+  }, [])
+
+  tanpa penulisan scope ([]), dia bakal dipanggil selalu atau jalan terus
+  useEffect(() => {
+    // ...
+  })
+
+  seperti componentDidMount + componentDidUpdate, dijalankan sekali pada saat component sudah dimuat, lalu dia akan jalan kembali ketika ada perubahan nilai dari suatu state
+  useEffect(() => {
+    // ...
+  }, [state1, state2, state3])
+
+  mirip componentDidUpdate + componentDidMount + componentWillUnmount, dia bakal dijalankan setiap waktu (mirip dengan penulisan useEffect tanpa scope), namun dia bakal unsubscribe ketika kita meninggalkan halaman agar performa dari web terjaga, implementasinya seperti OTP (ada perhitungan mundur yang dijalankan setiap detik), status online
+  useEffect(() => {
+    // ...
+    return () => {
+      // ...
+    }
+  })
+  */
+
+  function fetchData() {
     // axios.get(URL, config)
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${this.state.page}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${page}`
       )
       .then((res) => {
         const { results } = res.data; // destructuring
         // const results = res.data.results;
-        const newPage = this.state.page + 1;
-        const temp = [...this.state.datas]; // spread operator
+        const newPage = page + 1;
+        const temp = [...datas]; // spread operator
         temp.push(...results); // spread operator
-        this.setState({ datas: temp, page: newPage });
+        setDatas(temp);
+        setPage(newPage);
       })
       .catch((err) => {
         alert(err.toString());
       })
       .finally(() => {
-        this.setState({ loading: false });
+        setLoading(false);
       });
   }
 
-  fetchPopular() {
+  function fetchPopular() {
     fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${this.state.page}`
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${page}`
     )
       .then((response) => response.json())
       .then((res) => {
         const { results } = res; // destructuring
         // const results = res.data.results;
-        const newPage = this.state.page + 1;
-        const temp = [...this.state.datas]; // spread operator
+        const newPage = page + 1;
+        const temp = [...datas]; // spread operator
         temp.push(...results); // spread operator
-        this.setState({ datas: temp, page: newPage });
+        setDatas(temp);
+        setPage(newPage);
       })
       .catch((err) => {
         alert(err.toString());
       })
       .finally(() => {
-        this.setState({ loading: false });
+        setLoading(false);
       });
   }
 
-  handleFav(movie) {
+  function handleFav(movie) {
     const getMovies = localStorage.getItem("favMovies");
     if (getMovies) {
       const parsedMovies = JSON.parse(getMovies);
@@ -89,38 +115,31 @@ class App extends Component {
     }
   }
 
-  render() {
-    return (
-      <>
-        {/* Fragment */}
-        <Container>
-          <div className="w-full flex flex-col">
-            <p>
-              {this.state.title} | CLASS COMPONENT | {TESTSTRING}
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-4">
-              {this.state.loading
-                ? this.state.skeleton.map(
-                    (item) => <Loading key={item} /> // Self Closing tag
-                  )
-                : this.state.datas.map((data) => (
-                    <Card
-                      key={data.id}
-                      image={data.poster_path}
-                      title={data.title}
-                      onNavigate={() =>
-                        this.props.navigate(`/detail/${data.id}`)
-                      }
-                      addFavorite={() => this.handleFav(data)}
-                    /> // <~ Self closing tag
-                  ))}
-            </div>
-            <ButtonPrimary label="Load More" onClick={() => this.fetchData()} />
+  return (
+    <>
+      {/* Fragment */}
+      <Container>
+        <div className="w-full flex flex-col">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-4">
+            {loading
+              ? skeleton.map(
+                  (item) => <Loading key={item} /> // Self Closing tag
+                )
+              : datas.map((data) => (
+                  <Card
+                    key={data.id}
+                    image={data.poster_path}
+                    title={data.title}
+                    onNavigate={() => props.navigate(`/detail/${data.id}`)}
+                    addFavorite={() => handleFav(data)}
+                  /> // <~ Self closing tag
+                ))}
           </div>
-        </Container>
-      </>
-    );
-  }
+          <ButtonPrimary label="Load More" onClick={() => fetchData()} />
+        </div>
+      </Container>
+    </>
+  );
 }
 
 export default WithRouter(App);
