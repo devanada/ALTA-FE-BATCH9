@@ -8,7 +8,7 @@ Kalau bisa reusable component hanya menampilkan kumpulan element yang mana datan
 class Card extends Component {
   render() {
     return (
-      <div className="flex flex-col justify-center p-4 shadow-lg rounded-lg border bg-white">
+      <div className="flex flex-col justify-center p-4 shadow-lg rounded-lg border dark:border-neutral-500 bg-white dark:bg-neutral-700">
         <div className="w-full h-full" onClick={this.props.onNavigate}>
           <img
             src={`https://image.tmdb.org/t/p/w500${this.props.image}`}
