@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import "styles/App.css";
 
+import { setFavorites } from "utils/redux/reducers/reducer";
 import { WithRouter } from "utils/Navigation";
 
 import { ButtonPrimary } from "components/Button";
@@ -12,6 +14,7 @@ import Card from "components/Card";
 
 function App(props) {
   // ---=== CONSTRUCTOR START ===---
+  const dispatch = useDispatch();
   // const [state, setState] = useState(initialState)
   const [datas, setDatas] = useState([]);
   const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -108,11 +111,14 @@ function App(props) {
       */
       parsedMovies.push(movie);
       const temp = JSON.stringify(parsedMovies);
+      dispatch(setFavorites(parsedMovies));
       localStorage.setItem("favMovies", temp);
     } else {
       const temp = JSON.stringify([movie]);
+      dispatch(setFavorites([movie]));
       localStorage.setItem("favMovies", temp);
     }
+    alert("Added to favorite");
   }
 
   return (
